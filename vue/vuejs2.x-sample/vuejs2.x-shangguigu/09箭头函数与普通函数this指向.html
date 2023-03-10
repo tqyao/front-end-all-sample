@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<button @click="handler">普通函数点击弹窗</button>
+		<button @click="handler2">箭头函数点击弹窗</button>
+		<!-- 报错：应为该模版使用js语法，所处作用于是vue对象中，vue对象不存在 window 属性-->
+		<button @click="window.alert(222)">点击弹窗2</button>
+	</div>
+
+	<div id="app2">
+		<!-- 差值表达式，和属性绑定中只能访问到vue实例的属性 -->
+		<button @click="window.alert(333)">点击弹窗3</button>
+	</div>
+
+	<script>
+		Vue.config.productionTip = false
+		new Vue({
+			el: '#app',
+			data() {
+				return {}
+			},
+			methods: {
+				handler() {
+					console.log('this', this)
+					console.log('window', window)
+					alert(111)
+				},
+				handler2: () => {
+					console.log(this)
+					console.log('window', window)
+					alert(111)
+				}
+			}
+		})
+
+		new Vue({
+			el: '#app2',
+			data() {
+				return {
+					window
+				}
+			},
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model="firstName"> <br>
+		<input type="text" v-model="lastName"> <br>
+		<span>{{fullname}}</span> <br>
+		<span>{{fullname2}}</span> <br>
+		<span>{{fullname3}}</span> <br>
+
+	</div>
+	<script>
+		const vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					firstName: '张',
+					lastName: '三'
+				}
+			},
+			methods: {},
+			computed: {
+				/**
+				 * 读取和设置
+				 */
+				fullname: {
+					get() {
+						return (this.firstName + '_' + this.lastName).split('_').reverse().join(' ')
+					},
+					set(newValue) {
+						console.log("set >>", newValue)
+						const split = newValue.split(' ');
+						this.firstName = split[0]
+						this.lastName = split[split.length - 1]
+					}
+				},
+				/**
+				 * 只读
+				 */
+				fullname2:{
+					get(){
+						return (this.firstName + '_' + this.lastName).split('_').reverse().join(' ')
+					}
+				},
+				/**
+				 * 只读简写
+				 * @returns {string}
+				 */
+				fullname3(){
+					return (this.firstName + '_' + this.lastName).split('_').reverse().join(' ')
+				}
+			}
+		});
+	</script>
+</body>
+</html>

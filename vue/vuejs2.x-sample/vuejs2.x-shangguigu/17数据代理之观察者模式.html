@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		/**
+		 *    数据代理（数据劫持）
+		 *  vue 中的数据代理 start
+		 * @type {{person: {weight: string, tall: number}, hobby: string}}
+		 */
+		let data = {
+			contentType: '',
+			person: {
+				weight: '180kg',
+				tall: 180
+			},
+			hobby: ['basketball', 'tennis'],
+			friends: [
+				{name: 'bill', age: 18}
+			]
+		};
+		console.log("data > %o ", data)
+		const vm = new Vue({
+			el: '#app',
+			data: data
+		});
+		console.log("data > %o ", data)
+		console.log("vm._data > %o", vm._data)
+		console.log("vm._data === data > %o", vm._data === data)
+
+		console.log(vm._data.friends)
+		console.log('--------------------------------------------')
+		/*
+			vue 中的数据代理 end
+			 */
+
+
+		/**
+		 * 模拟 vue 中数据劫持
+		 * @type {{}}
+		 */
+		let myData = {
+			contentType: '',
+			boolData: true,
+			num: 123,
+			car: {
+				brand: 'byd',
+				price: 10086
+			},
+			hobby: ['basketball', 'tennis'],
+			friends: [
+				{name: 'bill', age: 18}
+			]
+		}
+
+		//window.console.log()
+
+		/**
+		 * 为 data 配置数据代理（模拟vue数据劫持）
+		 *
+		 * @param data
+		 * @returns {Observer}
+		 * @constructor
+		 */
+		function Observer(data) {
+			let keys = Object.keys(data)
+			keys.forEach(key => {
+				// 遍历data（对象）每一个属性
+				if (data[key] instanceof Object) {
+					// 如果对象属性的值还是一个对象，对该属性值进行递归调用，并把返回值赋值回给当前属性
+					// if (data[key].constructor === Object) {
+					data[key] = new Observer(data[key])
+
+					// todo ：这里为什么不是用this[key] 而是用 data[key]
+					// this[key] = new Observer(data[key])
+				}
+
+				// 判断到底是设置代理 还是 直接设置原属性值
+				if (!(data instanceof Array)) {
+					// data不是数组，则为当前 Observer 对象设置为代理对象
+					Object.defineProperty(this, key, {
+						get() {
+							return data[key]
+						},
+						set(val) {
+							/**
+							 * vue 可以在这里进行数据劫持，对变化的数据处理
+							 * @type {any}
+							 */
+							window.console.log("（数据劫持）set 调用")
+							data[key] = val
+						}
+					})
+				} else {
+					// 否则，为当前 Observer 对象设置属性
+					this[key] = data[key]
+				}
+			})
+			return this
+		}
+
+		let myVm = {}
+		const observer = myVm._data = myData = new Observer(myData);
+		console.log(observer)
+		console.log(myData)
+		console.log(myVm)
+
+
+		// let a = ['a','b','c']
+		// console.log(Object.keys(a));
+		// console.log(NaN instanceof Number)
+		// console.log(typeof 123 === 'number')
+		// console.log(parseInt("123"));
+		// console.log(parseInt("asda"));
+	</script>
+</body>
+</html>

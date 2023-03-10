@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+<!--	侦听器-->
+	<div id="app">
+		<input type="text" v-model="lastName"><br>
+		<input type="text" v-model="firstName"><br>
+		<div>{{fullName}}</div>
+	</div>
+
+<!--	计算属性-->
+	<div id="app2">
+		<input type="text" v-model="lastName"><br>
+		<input type="text" v-model="firstName"><br>
+		<!--		<div>fullName is {{fullName}}</div>-->
+		<div>{{fullName}}</div>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					firstName: 'abc',
+					lastName: '123',
+					fullName: ''
+				}
+			},
+			watch: {
+				firstName: {
+					handler(oldv) {
+						this.fullName = this.lastName + ' ' + oldv
+					},
+					immediate: true
+				},
+				lastName(oldV) {
+					this.fullName = oldV + ' ' + this.firstName
+				}
+			}
+		})
+
+		new Vue({
+			el:'#app2',
+			data(){
+				return{
+					firstName:'abc',
+					lastName:'123',
+				}
+			},
+			computed:{
+				fullName(){
+					return this.lastName + ' ' + this.firstName
+				}
+			}
+		})
+	</script>
+</body>
+</html>

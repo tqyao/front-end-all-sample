@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+	<style>
+
+		.tab ul {
+			overflow: hidden;
+			padding: 0;
+			margin: 0;
+		}
+
+		.tab ul li {
+			box-sizing: border-box;
+			padding: 0;
+			float: left;
+			width: 100px;
+			height: 45px;
+			line-height: 45px;
+			list-style: none;
+			text-align: center;
+			border-top: 1px solid blue;
+			border-right: 1px solid blue;
+			/*cursor*/
+		}
+
+		.tab ul li:first-child {
+			border-left: 1px solid blue;
+		}
+
+		.tab ul li.active {
+			background-color: orange;
+		}
+
+		.tab div {
+			width: 500px;
+			height: 300px;
+			display: none;
+			text-align: center;
+			font-size: 30px;
+			line-height: 300px;
+			border: 1px solid blue;
+			border-top: 0px;
+		}
+
+		.tab div.current {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div class="tab">
+			<ul>
+				<li @click="curIndex=index" :class="curIndex===index?'active':''" :key="item.id" v-for="(item,index) of treelist">
+					{{item.tname}}
+				</li>
+			</ul>
+			<div :class="curIndex===index?'current':''" :key="index" v-for="(item,index) of treelist">
+				<img :src="item.imgSrc" alt="">
+			</div>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					curIndex: 0,
+					treelist: [
+						{id: 1, tname: 'orange', 'imgSrc': './img/orange.png'},
+						{id: 2, tname: 'lemon', 'imgSrc': './img/lemon.png'},
+						{id: 3, tname: 'apple', 'imgSrc': './img/apple.png'},
+					]
+				}
+			}
+		})
+	</script>
+</body>
+</html>

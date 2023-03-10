@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+	<script>
+		/**
+		 * @param {number[]} nums
+		 * @return {boolean}
+		 */
+		var containsDuplicate = function (nums) {
+			const map = new Map();
+			for (let i = 0; i < nums.length; i++) {
+				let val = map.get(nums[i]);
+				if (val) {
+					map.set(nums[i], 2)
+				} else {
+					map.set(nums[i], 1)
+				}
+			}
+			console.log(map)
+			const vals = [...map.values()]
+			return vals.includes(2)
+		};
+		// console.log(containsDuplicate([1, 2, 3, 1]));
+
+
+		/**
+		 * 排序
+		 * 排序后重复元素两两比相邻
+		 * @param nums
+		 */
+		var containsDuplicate2 = function (nums) {
+			nums.sort((a, b) => a - b)
+			for (let i = 0; i < nums.length - 0; i++) {
+				if (nums[i] === nums[i + 1]) {
+					return true
+				}
+			}
+			return false
+		}
+		// console.log(containsDuplicate2([1, 2, 3, 1]));
+
+
+		/**
+		 * 哈希表
+		 * @param nums
+		 */
+		var containsDuplicate3 = function (nums) {
+			const set = new Set()
+			for (let n of nums) {
+				if (set.has(n)) {
+					return true
+				}
+				set.add(n)
+			}
+		}
+		console.log(containsDuplicate3([1, 2, 3, 1]));
+
+
+	</script>
+</body>
+</html>

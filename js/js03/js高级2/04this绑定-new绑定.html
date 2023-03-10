@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="" rel="stylesheet">
+	<script src=""></script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<script>
+		window.name = "win name"
+
+		function foo() {
+			// this.name = 'foo name'
+			console.log("foo", this)
+
+		}
+
+		let bar = {
+			name: 'bar name'
+		}
+		// 1. 独立调用：默认绑定
+		foo() //win name
+
+		// 2. 绑定函数调用：隐式绑定
+		bar.foo = foo
+		bar.foo()   //bar name
+
+		let bar2 = {
+			name: 'bar name',
+			foo: foo
+		}
+		bar2.foo()//bar name
+
+
+		/*
+		3.构造函数绑定
+			new 关键字执行
+			1. 堆中开辟内存空间，创建新对象
+			2. 新对象进行被执行 prototype 链接
+			3. this 绑定到新对象
+			4. 如果没有显示返回，默认会返回这个新对象
+		 */
+		new foo() // this 指向新创建的空对象 foo{}
+
+
+	</script>
+</body>
+</html>

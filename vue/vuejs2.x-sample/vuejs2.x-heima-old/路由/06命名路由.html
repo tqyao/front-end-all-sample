@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="../js/vue.js"></script>
+	<script src="../js/vue-router_3.0.2.js"></script>
+</head>
+<body>
+	<div id="app">
+		<router-link :to="{name:'user',params:{id:123}}">User 123组件</router-link>
+		<router-link :to="{name:'user',params:{id:456}}">User 456组件</router-link>
+		<router-view></router-view>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+		const User = {
+			props: ['id', 'username', 'password'],
+			template: `
+				<h2>User 组件 --- id:{{ id }},username:{{ username }},password:{{ password }}</h2>
+			`
+		}
+
+		const router = new VueRouter({
+			routes: [
+				{
+					path: '/',
+					redirect: '/user/123'
+				},
+				{
+					path: '/user/:id',
+					name: 'user',
+					component: User,
+					props: route => ({id: route.params.id, username: 'zs', password: 'abc'})
+				}
+			]
+		});
+		new Vue({
+			el: '#app',
+			data() {
+				return {}
+			},
+			router
+		})
+	</script>
+</body>
+</html>

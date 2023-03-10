@@ -1,0 +1,73 @@
+html,
+body,
+#app {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #ebedf1;
+}
+
+.el-card {
+    border-radius: 4px;
+    box-shadow: 0 0 4px 4px #eee;
+}
+
+.el-breadcrumb {
+    margin-bottom: 20px;
+    font-size: 10px;
+}
+
+.el-table {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.el-pagination {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 50px 0 0;
+}
+
+/* 解决cascader级联样式表超出屏幕的问题 */
+.el-cascader-panel {
+    height: 270px;
+}
+
+/* 隐藏横向滚动条 */
+.el-scrollbar__wrap {
+    overflow-x: hidden;
+}
+
+
+/* 级联选择器el-cascader，通过点击label文字部分选中*/
+.el-cascader-panel .el-radio {
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    position: absolute;
+    top: 10px;
+    right: -10px;
+}
+
+.el-cascader-panel .el-radio__input {
+    /* 隐藏单选框，不隐藏就不用设置*/
+    visibility: hidden;
+}
+
+.el-cascader-panel .el-cascader-node__postfix {
+    top: 10px;
+}
+
+/*进度条的上下边距*/
+.el-steps {
+    margin: 10px 0;
+}
+
+/*进度条文字大小*/
+.el-step__title {
+    font-size: 13px;
+}
+
+.ql-container{
+    height: 300px !important;
+}

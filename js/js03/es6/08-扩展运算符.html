@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div></div>
+	<div></div>
+	<div></div>
+	<script>
+		/* 1. 数组合并*/
+		const li1 = [1, 2, 3];
+		const li2 = [4, 5, 6];
+
+		const li3 = [...li1, ...li2];
+		console.log(li3);
+
+		/*2. 数组克隆*/
+		// 浅拷贝
+		const li4= [1,2,3];
+		const li5 = [...li4];
+		console.log(li5);
+
+
+		/* 3. 伪数组转数组 */
+		// -
+		const divs = document.getElementsByTagName("div");
+		console.log(divs);
+		const mydivs = [...divs];
+		console.log(mydivs);
+
+		// -
+		function test(){
+			console.log([...arguments])
+		}
+		test(1,2,3,4);
+
+
+
+	</script>
+</body>
+</html>

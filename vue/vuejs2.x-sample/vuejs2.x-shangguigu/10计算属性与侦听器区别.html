@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model="firstName"> <br>
+		<input type="text" v-model="lastName"> <br>
+		<!--		<div>计算属性 : {{fullname}}</div>-->
+		<div>侦听器 : {{fullname1}}</div>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					firstName: 'zhou',
+					lastName: 'jielun',
+					fullname1: ''
+				}
+			},
+			computed: {
+				// fullname() {
+				// 	console.log('computer >> ',this)
+				// 	return this.firstName + ' ' + this.lastName
+				// },
+
+				// fullname() {
+				// 	/**
+				// 	 * computed 中定义的 计算属性 需要明确一返回值，
+				// 	 *  结果：无论所依赖属性firstName与lastName如何变化视图层显示
+				// 	 *  <div>计算属性 : {{fullname}}</div> >>> 计算属性 : default
+				// 	 *
+				// 	 *  结论：computed 无法处理异步函数
+				// 	 *
+				// 	 */
+				// 	let s = 'default'
+				// 	setTimeout(()=>{
+				// 		console.log('computer >> ',this)
+				// 		s = this.firstName + ' ' + this.lastName;
+				// 		return s
+				// 	},1000)
+				// 	return s
+				// }
+			},
+
+			/**
+			 * 对比计算属性需要对两个变量做侦听
+			 */
+			watch: {
+				'firstName': {
+					immediate: true,
+					handler(newValue) {
+						setTimeout(() => {
+							/*
+							此处 this 指向 vue 实例
+							 */
+							console.log('firstName >>>', this)
+							this.fullname1 = newValue + ' ' + this.lastName
+						}, 1000)
+					}
+				},
+				'lastName': {
+					immediate: true,
+					handler(newValue) {
+						setTimeout(function () {
+							/*
+							todo:
+							 此处 this 指向 window
+							 普通函数中
+							    - 1. this 指向函数的调用方
+								- 2. this 指向当前作用域
+								此处属于情况
+							 */
+							console.log('firstName >>>', this)
+							this.fullname1 = this.lastName + ' ' + newValue
+						}, 1000)
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

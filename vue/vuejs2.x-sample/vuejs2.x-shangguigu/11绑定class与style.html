@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+	<style>
+		.base {
+			float: left;
+			width: 200px;
+			height: 200px;
+			border: 1px black solid;
+		}
+
+		.font_style {
+			font-size: 40px;
+		}
+
+		.color_style {
+			color: #6a1a21;
+		}
+
+		.bg_style {
+			background-color: yellowgreen;
+		}
+
+		.border_style {
+			border: 5px red dashed;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div class="base">原型</div>
+		<div class="base font_style color_style bg_style border_style">原型</div>
+		<!--一般用于未知类名-->
+		<div class="base" :class="className1">{{msg2}}</div>
+		<!--数组形式:一般用于未知类个数，未知类名-->
+		<div class="base" :class="classArr">{{msg2}}</div>
+		<!--对象形式:一般用于已知类个数，未知类名-->
+		<div class="base" :class="classObj">{{msg2}}</div>
+
+		<div class="base" :style="styleObj">{{msg}}</div>
+		<div class="base" :style="styleArr">{{msg}}</div>
+
+	</div>
+	<script>
+		Vue.config.productionTip = false
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					msg: '样式绑定',
+					msg2: 'class绑定',
+					className1: 'font_style',
+					classArr: ['font_style', 'color_style', 'border_style'],
+					classObj: {
+						border_style: true,
+						color_style: false,
+						font_style: true,
+						bg_style: true
+					},
+					styleObj: {
+						fontSize: '80px',
+						backgroundColor: 'blue'
+					},
+					styleArr: [
+						// 未生效
+						this.styleObj,
+						{border: '10px #ccc solid'}
+					]
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>

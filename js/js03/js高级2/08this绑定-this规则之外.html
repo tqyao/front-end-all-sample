@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="" rel="stylesheet">
+	<script src=""></script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<script>
+
+		/*
+		1. 显示绑定 undefined 或 null
+		 */
+		// scope 用于划分开非严格模式和严格模式
+		function scope() {
+			function foo() {
+				console.log(this);
+			}
+
+			/*
+			1） 非严格模式
+		function.apply、call 传入null、undefined ：默认绑定
+			 */
+
+			// 绑定基本类型js会自动包装成对应的对象
+			foo.apply("string1") // String{'string1'}
+			foo.apply(null) // window
+			foo.apply(undefined)    // window
+		}
+
+		scope()
+
+
+		// scope 用于划分开非严格模式和严格模式
+		function scope2() {
+			"use strict"
+
+			function foo() {
+				console.log(this);
+			}
+
+			/*
+			2） 严格模式
+		function.apply、call 传入null、undefined ：绑定结果是任然指向null 或 undefined
+			 */
+			foo.apply("string2") // string2
+			foo.apply({tag: 'object'})  //{tag: 'object'}
+			foo.apply(null)//null
+			foo.apply(undefined)//undefined
+		}
+
+
+		scope2()
+
+
+		/*
+		2. 间接函数引用
+		 */
+		let obj1 = {
+			tag: 'obj1',
+			bar: function () {
+				console.log(this)
+			}
+		}
+
+		let obj2 = {
+					tag: 'obj2',
+				}
+				// // 1)
+				// obj2.bar = obj1.bar
+				// // 隐式绑定
+				// obj2.bar() //{tag: 'obj2', bar: ƒ}
+
+				// 2)
+				// 如果 (),[],{} 都要在前面加分号，否则js无法解释执行
+
+				//第一个 () 获取表达式返回值，第二个 () 函数调用，这种方式触发的是默认绑定
+		;(obj2.bar = obj1.bar)()
+
+
+	</script>
+</body>
+</html>

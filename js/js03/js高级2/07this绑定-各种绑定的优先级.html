@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="" rel="stylesheet">
+	<script src=""></script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<script>
+		/*
+		1. 默认绑定优先级最低
+		 */
+
+		/*
+		2. 显式绑定高于隐式绑定
+		 */
+		function foo() {
+			console.log("foo", this)
+		}
+
+		// 1) apply
+		let myobj = {
+			tag: 'myobj',
+			foo: foo
+		}
+		myobj.foo.apply({tag: '显示绑定 apply'}) //{tag: '显示绑定 apply'}
+
+		// 2) call
+		myobj.foo.call({tag: '显示绑定 call'})  //{tag: '显示绑定 call'}
+
+		// 3) bind
+		function foo2() {
+			console.log("foo2", this)
+		}
+
+		let bundle = foo2.bind({tag: '显示绑定 bind'})
+		let myobj2 = {
+			tag: 'myobj2',
+			bundle: bundle
+		}
+		myobj2.bundle() //{tag: '显示绑定 bind'}
+
+
+		/*
+		4) new 优先级高于隐式绑定
+		 */
+		function foo3() {
+			console.log("foo3", this)
+		}
+
+		let myobj3 = {
+			tag: 'myobj3',
+			foo3: foo3
+		}
+		new myobj3.foo3()   // foo3 {}
+
+
+		/*
+		 3.  new 优先级高于 bind
+		 new 不能与 apply ，call 一起使用
+		 */
+		function foo4() {
+			console.log("foo4", this)
+		}
+
+		let bundle2 = foo4.bind({tag: 'foo4 bind'})
+		new bundle2() //foo4 {}
+
+
+		/*
+		4. bind 与 apply 、call 优先级
+		: bind 高于 apply 、call
+		 */
+		function foo5() {
+			console.log("foo5", this)
+		}
+
+		let bundle3 = foo4.bind({tag: 'foo5 bind'})
+		bundle3.apply({tag: 'foo5 apply'})  //{tag: 'foo5 bind'}
+		bundle3.call({tag: 'foo5 call'})  //{tag: 'foo5 call'}
+	</script>
+</body>
+</html>

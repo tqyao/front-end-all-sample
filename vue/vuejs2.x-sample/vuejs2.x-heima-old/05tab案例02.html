@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<!--	<script src="./js/vue.js"></script>-->
+	<style>
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.tab li {
+			float: left;
+			padding: 10px 30px;
+			border: 1px solid #ccc;
+		}
+
+		.tab li.active {
+			background-color: orange;
+		}
+
+		.tab > div {
+			width: 500px;
+			height: 300px;
+			border: 1px solid black;
+		}
+
+		.tab > div img {
+			display: none;
+		}
+
+		.tab > div img.current {
+			display: block;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div class="tab">
+			<ul style="overflow: hidden">
+				<li class="active">orange</li>
+				<li>lemon</li>
+				<li>apple</li>
+			</ul>
+			<div>
+				<img class="current" src="./img/orange.png" alt="">
+				<img src="./img/lemon.png" alt="">
+				<img src="./img/apple.png" alt="">
+			</div>
+		</div>
+	</div>
+	<script>
+
+		const ul = document.querySelector('.tab ul');
+		const lis = [...ul.children];
+		const imgs = [...document.querySelectorAll('.tab > div img')]
+
+		lis.forEach((item, index) => {
+			item.dataset['idx'] = index
+		})
+
+		ul.addEventListener('click', function (e) {
+			const target = e.target;
+			if (e.target.tagName !== 'LI') return;
+			lis.forEach(items => {
+				items.className = '';
+			})
+			imgs.forEach(items => {
+				items.className = ''
+			})
+			target.className = 'active'
+			console.log(target.dataset);
+			imgs[target.dataset['idx']].setAttribute('class','current')
+		})
+
+
+		// new Vue({
+		// 	el: '#app',
+		// 	data() {
+		// 		return {
+		// 			curIndex: 0,
+		// 			treelist: [
+		// 				{id: 1, tname: 'orange', 'imgSrc': './img/orange.png'},
+		// 				{id: 2, tname: 'lemon', 'imgSrc': './img/lemon.png'},
+		// 				{id: 3, tname: 'apple', 'imgSrc': './img/apple.png'},
+		// 			]
+		// 		}
+		// 	}
+		// })
+	</script>
+</body>
+</html>

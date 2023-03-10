@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input v-model.number="phone" type="text"><br>
+		<input v-model.trim="string" type="text"><br>
+		<input v-model.lazy="msg" type="text"><br>
+		<input type="submit" @click="handler" value="提交">
+		<p>{{msg}}</p>
+	</div>
+	<script>
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					phone: '',
+					string: '',
+					msg: ''
+				}
+			},
+			methods: {
+				handler(){
+					console.log(this.phone)
+					console.log(this.string)
+					console.log(this.msg)
+				}
+			}
+		})
+	</script>
+</body>
+</html>

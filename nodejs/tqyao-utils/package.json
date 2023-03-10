@@ -1,0 +1,16 @@
+{
+  "name": "tqyao-utils",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "moment 时间格式化、HTML 转义",
+  "keywords": [
+    "tqyao-utils",
+    "moment",
+    "html transform"
+  ],
+  "author": "tqyao",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

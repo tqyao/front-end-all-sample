@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div>
+			<h1>current display index :{{idx}}</h1>
+			<button @click="addIdx">add index</button>
+			<h2 v-if="idx === 1">vue</h2>
+			<h2 v-else-if="idx === 2">react</h2>
+			<!-- 注意： v-if 与xx-else 一起使用中间不能插入其他html结构 -->
+			<!--			<div>v-if 解构中间不能插入html</div>-->
+			<h2 v-else-if="idx === 3">angular</h2>
+			<h3 v-else>其他 h3 display</h3>
+		</div>
+		<br>
+		<div>
+			<!--
+			v-if：
+				- 直接移除dom元素
+				- 适用切换评率低的场景
+
+			v-show：
+				- display:none 来隐藏元素
+				- 适用于切换频率高场景
+			-->
+			<h1 v-show="false">v-show</h1>
+			<h1 v-if="false">v-show</h1>
+		</div>
+
+		<!--
+		场景：同一隐藏一组标签元素
+		方法一：给要隐藏的标签元素加入到统一父级dom中，隐藏掉父级dom
+			- 缺点：会破话原有html结构，可能会造成页面样式失效
+
+		方法二：结合 template 隐藏标签元素
+			- template 渲染最终结果是不含 <template>
+			- template 只能和v-if使用
+		-->
+		<div v-show="false" data-index="1">
+			<div>v-show="false"</div>
+			<div>vue</div>
+			<div>react</div>
+			<div>angular</div>
+		</div>
+
+		<template v-if="false" data-index="2">
+			<div>template v-if="false"</div>
+			<div>vue</div>
+			<div>react</div>
+			<div>angular</div>
+		</template>
+
+		<template v-show="false" data-index="3">
+			<div>template v-show="false"</div>
+			<div>vue</div>
+			<div>react</div>
+			<div>angular</div>
+		</template>
+
+
+
+	</div>
+	<script>
+		Vue.config.productionTip = false
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					idx: 0
+				}
+			},
+			methods: {
+				addIdx() {
+					this.idx = ++this.idx === 5 ? 0 : this.idx;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

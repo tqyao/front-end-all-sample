@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="../js/vue.js"></script>
+	<script src="../js/vue-router_3.0.2.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div>
+			<router-link to="/home">首页</router-link>
+			<router-link to="/news">新闻</router-link>
+			<router-link to="/money">财经</router-link>
+		</div>
+		<router-view></router-view>
+	</div>
+	<script>
+		/*
+		1. 创建 VueRouter 对象
+		2. 指定 routes 规则
+		3. 给 vue 实例挂载路由组件
+		4. router-link ：相当于 a标签
+		5. router-view 路由占位符号
+		 */
+
+		Vue.config.productionTip = false
+		const news = {
+			template: `
+			<div>新闻</div>
+			`
+		}
+
+		const money = {
+			template: `
+			<div>财经</div>
+			`
+		}
+
+		const home = {
+			template: `
+			<div>首页</div>
+			`
+		}
+
+		const router = new VueRouter({
+			routes: [
+				{path: '/', redirect:'/money'},
+				{path: '/home', component: home},
+				{path: '/money', component: money},
+				{path: '/news', component: news},
+			]
+		});
+
+
+		new Vue({
+			el: '#app',
+			data() {
+				return {}
+			},
+			router
+		})
+	</script>
+</body>
+</html>

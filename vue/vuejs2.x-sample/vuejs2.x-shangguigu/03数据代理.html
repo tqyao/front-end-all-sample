@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<script>
+		const o1 = {
+			x: 123
+		}
+		const o2 = {
+			x: 456
+		}
+		// 给 o2 添加（设置）属性x
+		Object.defineProperty(o2, 'x', {
+			// 访问 o2.x时调用get，返回o1.x
+			get() {
+				return o1.x
+			},
+			// 赋值o2.x时调用set，同步更新o1.x
+			set(val) {
+				o1.x = val
+			}
+		})
+
+		console.log("o1 > %o, o2 > %o", o1, o2)
+		o2.x = 1000
+		console.log("o1 > %o, o2 > %o", o1, o2)
+
+		// vue 中数据代理
+
+		class MyVue {
+			constructor(option = {}) {
+				this._data = option.data
+				this._proxy()
+			}
+
+			_proxy() {
+				for (let attr in this._data) {
+					Object.defineProperty(this, attr, {
+						get() {
+							return this._data[attr]
+						},
+						set(val) {
+							this._data[attr] = val
+						}
+					})
+				}
+			}
+		}
+
+		const myVue = new MyVue({
+			data: {
+				name: 'zs',
+				age: 12
+			}
+		})
+		console.log("myVue=>%o\nmyVue._data => %o\nmyVue.name => %o\n", myVue, myVue._data, myVue.name)
+		myVue._data.name = "lisi"
+		console.log("myVue=>%o\nmyVue._data => %o\nmyVue.name => %o\n", myVue, myVue._data, myVue.name)
+		myVue.name = "wangwu"
+		console.log("myVue=>%o\nmyVue._data => %o\nmyVue.name => %o\n", myVue, myVue._data, myVue.name)
+
+
+	</script>
+</body>
+</html>

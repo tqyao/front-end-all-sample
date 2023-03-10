@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<!-- 不传递参数，则在方法定义处定义的第一个形参就是事件对象		-->
+		<button @click="displayDetail">点我</button>
+		<button @click="displayDetail2(123,'abc')">点我2</button>
+		<!--	通过 $event 关键字传递时间函数	-->
+		<button @click="displayDetail3(123,'abc',$event)">点我3</button>
+	</div>
+	<script>
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					/*
+					不要在data中定义方法
+					，data 中的属性都会做代理，方法定义后一般不做修改，为方法做代理消耗不必要的资源
+					 */
+					myFunction() {
+					}
+				}
+			},
+			methods: {
+				displayDetail(event) {
+					console.log(event)
+				},
+				displayDetail2(p1, p2, p3) {
+					console.log(p1, p2, p3)
+				},
+				displayDetail3(p1, p2, p3) {
+					console.log(p1, p2, p3)
+				}
+			}
+		})
+	</script>
+</body>
+</html>

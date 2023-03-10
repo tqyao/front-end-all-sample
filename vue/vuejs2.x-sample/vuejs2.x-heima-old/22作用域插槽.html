@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+	<style>
+		.current {
+			color: orange;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<!--新语法-->
+		<main-container>
+			<template v-slot:main-slot="slotProps">
+				<!--子组件循环创建了3个插槽，这里只对插槽属性值为fruit.id === 3 的那一个做加工处理，其余不变-->
+				<strong class="current" v-if="slotProps.fruit.id === 3">{{slotProps.fruit.name}}</strong>
+			</template>
+		</main-container>
+
+
+		<!--废弃-->
+		<!--		<main-container>-->
+		<!--			<template slot-scope="slotScope">-->
+		<!--				<strong class="current" v-if="slotScope.item.id == 3">{{slotScope.item.name}}</strong>-->
+		<!--				<span v-else>{{slotScope.item.name}}</span>-->
+		<!--			</template>-->
+		<!--		</main-container>-->
+	</div>
+	<script>
+		/*
+		作用域插槽：在父组件中访问子组件中的属性
+		 */
+		Vue.config.productionTip = false
+		Vue.component('main-container', {
+			data() {
+				return {
+					fruits: [
+						{id: 1, name: 'apple'},
+						{id: 2, name: 'banner'},
+						{id: 3, name: 'orange'}
+					]
+				}
+			},
+			template: `
+				<div>
+				<ul>
+					<li :key="item.id" v-for="item in fruits">
+						<!-- 由于html中对大小写无感，所以具名插槽的名称必须 短横杠 形 式						-->
+						<slot name="main-slot" :fruit="item">{{ item.name }}</slot>
+					</li>
+				</ul>
+				</div>`
+
+			// template:`
+			// 	<div>
+			// 	<ul>
+			// 	<li v-for="item in fruits">
+			// 		<slot :item="item">{{item.name}}</slot>
+			// 	</li>
+			// 	</ul>
+			// 	</div>
+			// `
+		})
+		new Vue({
+			el: '#app',
+			data() {
+				return {}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>跨域请求接口测试</title>
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<style>
+		.result {
+			margin-top: 10px;
+			width: 400px;
+			height: 300px;
+			border: 2px solid #cccccc;
+		}
+	</style>
+</head>
+<body>
+	<button class="btnGet">btnGet</button>
+	<button class="btnPost">btnPost</button>
+	<button class="btnPut">btnPut</button>
+	<button class="btnDel">btnDel</button>
+	<button class="btnJsonp">btnJsonp</button>
+	<div class="result"></div>
+	<script>
+		$(function () {
+			$('.btnGet').on('click', function () {
+				$.ajax({
+					type: 'get',
+					url: 'http://127.0.0.1:8888/api/user?useranme=xiaoming&&pwd=123',
+					dataType: 'json',
+					success(data) {
+						console.log(data)
+						$('.result').text(JSON.stringify(data))
+					}
+				})
+			})
+
+			$('.btnPost').on('click', () => {
+				$.ajax({
+					type: 'post',
+					url: 'http://127.0.0.1:8888/api/user',
+					dataType: 'json',
+					data: {'title': 'testBlog', 'auth': 'tqyao', 'age': 18},
+					success(data) {
+						$('.result').text(JSON.stringify(data))
+					}
+				})
+			})
+
+			$('.btnPut').on('click', () => {
+				$.ajax({
+					type: 'put',
+					url: 'http://127.0.0.1:8888/api/user/1231234567',
+					dataType: 'json',
+					data: {'title': 'testBlog', 'auth': 'tqyao', 'age': 18},
+					success(data) {
+						console.log(data)
+						$('.result').text(JSON.stringify(data))
+					}
+				})
+			})
+
+
+			$('.btnDel').on('click', () => {
+				$.ajax({
+					type: 'delete',
+					url: 'http://127.0.0.1:8888/api/user/1231234567',
+					dataType: 'json',
+					data: {'title': 'testBlog', 'auth': 'tqyao', 'age': 18},
+					success(data) {
+						console.log(data)
+						$('.result').text(JSON.stringify(data))
+					}
+				})
+			})
+
+			$('.btnJsonp').on('click', () => {
+				$.ajax({
+					type: 'get',
+					url: 'http://127.0.0.1:8888/api/user/jsonp',
+					dataType: 'jsonp',
+					success(data) {
+						$('.result').text(JSON.stringify(data))
+					}
+				})
+			})
+		})
+	</script>
+</body>
+</html>

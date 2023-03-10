@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="text" placeholder="请输入搜索值" v-model="keywords">
+		<div v-for="(item,index) in filterDataList" :key="index">
+			{{item.uname + "_" + item.age}}
+		</div>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		/* 侦听器实现 */
+		// new Vue({
+		// 	el: '#app',
+		// 	data() {
+		// 		return {
+		// 			keywords: '',
+		// 			dataList: [
+		// 				{id: 1, uname: '马冬梅', age: 18},
+		// 				{id: 2, uname: '周冬雨', age: 20},
+		// 				{id: 3, uname: '周杰伦', age: 22},
+		// 				{id: 4, uname: '温兆伦', age: 32},
+		// 			],
+		// 			filterDataList: []
+		// 		}
+		// 	},
+		// 	watch: {
+		// 		'keywords': {
+		// 			immediate:true,
+		// 			handler(val){
+		// 				this.filterDataList = this.dataList.filter(item => item.uname.indexOf(val) !== -1)
+		// 			}
+		// 		}
+		// 	}
+		// })
+
+
+		/* 计算属性实现 */
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					keywords: '',
+					dataList: [
+						{id: 1, uname: '马冬梅', age: 18},
+						{id: 2, uname: '周冬雨', age: 20},
+						{id: 3, uname: '周杰伦', age: 22},
+						{id: 4, uname: '温兆伦', age: 32},
+					],
+
+				}
+			},
+			computed: {
+				filterDataList() {
+					return this.dataList.filter(item => item.uname.indexOf(this.keywords) !== -1)
+				}
+			}
+		})
+
+
+	</script>
+</body>
+</html>

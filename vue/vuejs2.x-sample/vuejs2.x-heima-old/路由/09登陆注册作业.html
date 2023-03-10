@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="../js/vue.js"></script>
+	<script src="../js/vue-router_3.0.2.js"></script>
+</head>
+<body>
+	<div id="app">
+		<router-link to="/login">账号密码登录</router-link>
+		<router-link to="/scan-login">扫码登录</router-link>
+		<hr>
+		<router-view></router-view>
+		<br>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		const Login = {
+			template: `
+			<div>
+				<h2>login 组件</h2>
+				<label for="">用户名：
+					<input type="username">
+				</label>
+				<br>
+				<label for="">密码：
+					<input type="password">
+				</label>
+				<br>
+				<button>登陆</button>
+				<br>
+				<button @click="register">点击注册</button>
+			</div>
+			`,
+			methods:{
+				register(){
+					this.$router.push('/register')
+				}
+			}
+		}
+		const ScanLogin = {
+			template:`
+			<div>
+			<h2>扫码登录组件</h2>
+			<img src="../img/erweima.png" alt="">
+			<br>
+			<button @click="register">点击注册</button>
+			</div>
+			`,
+			methods:{
+				register(){
+					this.$router.push('/register')
+				}
+			}
+		}
+
+		const Register = {
+			template: `
+			<div>
+				<h2>注册组件</h2>
+				<ul>
+					<li><label for="">用户名</label><input type="text"></li>
+					<li><label for="">密码</label><input type="password"></li>
+					<li><label for="">重复密码</label><input type="password"></li>
+					<li><label for="">验证码</label><input type="password"></li>
+					<li><input type="submit"></li>
+				</ul>
+				<button @click="goback">返回</button>
+			</div>
+			`,
+			methods:{
+				goback(){
+					this.$router.go(-1)
+				}
+			}
+		}
+
+		const router = new VueRouter({
+			routes: [
+				{path: '/', redirect: '/login'},
+				{path: '/login', component: Login},
+				{path: '/scan-login', component: ScanLogin},
+				{path: '/register', component: Register}
+			]
+		});
+		new Vue({
+			el: '#app',
+			data() {
+				return {}
+			},
+			router,
+
+		})
+	</script>
+</body>
+</html>

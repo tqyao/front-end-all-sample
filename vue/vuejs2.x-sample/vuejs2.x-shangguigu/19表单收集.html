@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+	<style>
+		ul, li {
+			list-style: none;
+		}
+	</style>
+</head>
+<body>
+	<!--
+	input[radio]
+		- 不配置 value 收集到的数据是null
+		- 配置 value 选中收集到的就是value值
+
+	input[checkbox]
+		- 不配置 value 收集到的就是 checked 布尔值
+		- 配置 value：
+			- 双向数据绑定值为数组：勾选收集到的值为value值
+			- ~不为数组：~值为checked布尔值
+	-->
+	<div id="app">
+		<form @submit.prevent="submit">
+			<ul>
+				<li><label for="account">用户名：</label><input v-model="userInfo.account" id="account" type="text"></li>
+				<li><label for="pwd">密码：</label><input v-model="userInfo.pwd" id="pwd" type="password"></li>
+				<li><label for="age">年龄：</label><input v-model="userInfo.age" id="age" type="number"></li>
+				<li>
+					性别：
+
+					<!-- radio 双向数据绑定 value 必须设置才能正常使用 -->
+
+					<input v-model="userInfo.sex"  id="male" type="radio" name="sex"><label
+						for="male">男</label>
+					<input v-model="userInfo.sex"  id="female" type="radio" name="sex"><label
+						for="female">女</label>
+<!--					<input v-model="userInfo.sex" value="0" id="male" type="radio" name="sex"><label-->
+<!--						for="male">男</label>-->
+<!--					<input v-model="userInfo.sex" value="1" id="female" type="radio" name="sex"><label-->
+<!--						for="female">女</label>-->
+
+
+				</li>
+				<li>
+					<div>
+						爱好：
+						<label>学习
+							<input v-model="userInfo.hobby" value="0" type="checkbox">
+						</label>
+						<label>打游戏
+							<input v-model="userInfo.hobby" value="1" type="checkbox">
+						</label>
+						<label>吃饭
+							<input v-model="userInfo.hobby" value="2" type="checkbox">
+						</label>
+						<!--						爱好：-->
+						<!--						<label>学习-->
+						<!--							<input v-model="userInfo.hobby"  type="checkbox">-->
+						<!--						</label>-->
+						<!--						<label>打游戏-->
+						<!--							<input v-model="userInfo.hobby" type="checkbox">-->
+						<!--						</label>-->
+						<!--						<label>吃饭-->
+						<!--							<input v-model="userInfo.hobby"  type="checkbox">-->
+						<!--						</label>-->
+					</div>
+				</li>
+				<li>
+					<label>所属校区:</label>
+					<select v-model="userInfo.school" id="school">
+						<option value="1">北京</option>
+						<option value="2">上海</option>
+						<option value="3">广州</option>
+					</select>
+				</li>
+				<li>
+					<label>其他信息：</label>
+					<textarea v-model="userInfo.brief"></textarea>
+				</li>
+				<li>
+					<input id="accept" v-model="userInfo.accept" value="1" type="checkbox"> <label
+						for="accept">阅读并接受</label> <a href="#">《用户协议》</a> <input
+						type="submit" value="提交">
+				</li>
+			</ul>
+		</form>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					userInfo: {
+						account: '',
+						pwd: '',
+						age: '',
+						sex: 1,
+						hobby: [],
+						school: '',
+						brief: '',
+						accept: ''
+					}
+				}
+			},
+			methods: {
+				submit() {
+					console.log(JSON.stringify(this.userInfo))
+				}
+			}
+		})
+	</script>
+</body>
+</html>

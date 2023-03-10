@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+	<style>
+
+
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.infoForm {
+			padding: 30px 0;
+			margin: 0 auto;
+			width: 500px;
+			background-color: yellowgreen;
+		}
+
+		.infoForm li {
+			/*height: 30px;*/
+		}
+
+		.infoForm input[type="text"] {
+			width: 200px;
+		}
+
+		.infoForm li label:first-child {
+			padding-left: 20px;
+			display: inline-block;
+			width: 150px;
+		}
+
+		.infoForm #brief {
+			margin-top: 10px;
+			height: 60px;
+		}
+
+		.infoForm ul li:last-child input {
+			width: 80%;
+			height: 50px;
+			transform: translate(-50%);
+			position: relative;
+			top: 10px;
+			left: 50%;
+		}
+
+		.infoForm .professions {
+			height: 50px;
+			width: 200px;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="app">
+		<form class="infoForm" action="">
+			<ul>
+				<li><label for="name">姓名：</label> <input id="name" type="text" v-model="formData.name"></li>
+				<li>
+					<label for="">性别：</label>
+					<label for="male">男</label>
+					<input id="male" name="gender" value="0" v-model="formData.gender" type="radio">
+					<label for="female">女</label>
+					<input id="female" v-model="formData.gender" value="1" name="gender" type="radio">
+				</li>
+				<li><label for="">爱好：</label>
+					<input id="sing" v-model="formData.hobby" name="hobby" value="sing" type="checkbox"><label
+							for="sing">唱歌</label>
+					<input id="ball" v-model="formData.hobby" name="hobby" value="ball" type="checkbox"><label
+							for="ball">篮球</label>
+					<input id="code" v-model="formData.hobby" name="hobby" value="code" type="checkbox"><label
+							for="code">写代码</label>
+				</li>
+				<li>
+					<label for="">职业：</label>
+					<select v-model="formData.professions" multiple size="4" class="professions">
+						<option value="0">请选择职业...</option>
+						<option value="1">教师</option>
+						<option value="2">软件工程师</option>
+						<option value="3">律师</option>
+					</select>
+				</li>
+				<li>
+					<label for="">简介：</label>
+					<textarea v-model="formData.brief" id="brief"></textarea>
+				</li>
+				<li><input id="" type="submit" value="确认" @click.prevent="submit"></li>
+			</ul>
+		</form>
+	</div>
+	<script>
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					formData: {
+						name: '',
+						gender: 0,
+						hobby: [],
+						professions: [],
+						brief:''
+					}
+				}
+			},
+			methods: {
+				submit() {
+					console.log(JSON.stringify(this.formData))
+				}
+			}
+		})
+	</script>
+</body>
+</html>

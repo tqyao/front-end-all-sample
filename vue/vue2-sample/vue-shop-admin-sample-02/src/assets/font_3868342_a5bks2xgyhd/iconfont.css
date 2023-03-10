@@ -1,0 +1,35 @@
+@font-face {
+  font-family: "iconfont2"; /* Project id 3868342 */
+  src: url('iconfont.woff2?t=1674271410671') format('woff2'),
+       url('iconfont.woff?t=1674271410671') format('woff'),
+       url('iconfont.ttf?t=1674271410671') format('truetype');
+}
+
+.iconfont2 {
+  font-family: "iconfont2" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-yonghu:before {
+  content: "\e788";
+}
+
+.icon-shangpin-xianxing:before {
+  content: "\e889";
+}
+
+.icon-dingdan:before {
+  content: "\e645";
+}
+
+.icon-authority:before {
+  content: "\e623";
+}
+
+.icon-tongjijisuan:before {
+  content: "\e659";
+}
+

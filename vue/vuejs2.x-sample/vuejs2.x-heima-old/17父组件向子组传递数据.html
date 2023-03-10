@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<my-nav ptitle="静态属性"></my-nav>
+		<my-nav ptitle="静态属性" :pname="msg"></my-nav>
+
+
+		<!--
+		命名注意：
+			- 在html中属性需以短横线形式命名
+			- msgTileTwo 不会报错，但有警告
+		-->
+		<my-test msg-tile="测试短横线属性1" MsgTileTwo="测试驼峰属性1"></my-test>
+
+		<my-test2></my-test2>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		Vue.component('my-test2',{
+			template:'<div><h2>my-test2</h2><my-test msg-tile="测试短横线属性3" MsgTileTwo="测试驼峰属性3"></my-test></div>'
+		})
+		/*
+		父组件传递数据给子组件
+		props
+			作用：
+				- 用于接收父组件传递的数据
+			命名注意：
+				- 传递属性名称字符串形式
+				- 在html中属性需以短横线形式命名
+				- 在字符串中，可以驼峰也可以短横线形式命名。例如可以在子组件template 字符串形式模版使用驼峰
+		 */
+		Vue.component('my-test',{
+			props: ['MsgTile',"MsgTileTwo"],
+			template: `
+				<div>
+				<h2>my-test</h2>
+				<div>{{MsgTile + "___" + MsgTileTwo}}</div>
+				</div>
+			`
+		})
+
+		Vue.component('my-nav', {
+			props: ['ptitle', 'pname'],
+			template: `
+				<div>
+				<h2>my-nav</h2>
+				{{ ptitle + '----' + pname }}
+				<my-test msg-tile="测试短横线属性2" MsgTileTwo="测试驼峰属性2"></my-test>
+				<hr>
+				</div>
+			`
+		})
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					msg: '动态属性'
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+
+		let obj = {
+			first: "tqyao",
+			second: "wwj",
+			last: "xiaoxuefeng"
+		}
+		for (let k in obj) {
+			console.log(k);
+		}
+		// 对象没有iterator遍历报错
+		// for (let v of obj) {
+		// 	console.log(v);
+		// }
+		console.log("\n");
+
+
+		// 什么是迭代器
+		let arr01 = ["red", "green", "blue", "balck"];
+
+		for (let k in arr01) {
+			console.log(k);
+		}
+		for (let v of arr01) {
+			console.log(v);
+		}
+
+		console.log(">>>>")
+		for (let [k,v] of arr01){
+			console.log(k,v);
+		}
+
+		console.log("\n");
+		// 获取 iterator 迭代对象
+		let it = arr01[Symbol.iterator]();
+		console.log(it.next());
+		console.log(it.next());
+		console.log(it.next());
+		console.log(it.next());
+		console.log(it.next());
+		/*
+		* {value: 'green', done: false} 返回一个带有vlaue 和 done 的对象
+		* */
+		console.log('\n');
+
+
+		// 对象无法遍历，自定义迭代器使其能够遍历
+		let obj02 = {
+			arr03: ["kingnight", "xiaotian", "xiaoming", "xiaohu", "xiaozuo"],
+			[Symbol.iterator]() {
+				// this 指向 [Symbol.iterator]() 的调用者 => obj02
+				this.index = 0;
+				return {
+					next: () => {
+						let res = {};
+						// if (this.index < this.arr03.length) {
+						// 	res = { value: this.arr03[this.index++], done: false }
+						// }
+						// res =  { value: undefined, done: true }
+						res = this.index < this.arr03.length ? { value: this.arr03[this.index++], done: false }
+							: { value: undefined, done: true }
+						return res;
+					}
+				}
+			}
+		}
+
+		// console.log(obj02[Symbol.iterator]().next());
+		let iterator01 = obj02[Symbol.iterator]();
+		console.log(iterator01.next());
+		console.log(iterator01.next());
+		console.log(iterator01.next());
+		console.log(iterator01.next());
+		console.log(iterator01.next());
+		console.log(iterator01.next());
+		console.log(iterator01.next());
+		console.log(iterator01.next());
+
+
+
+	</script>
+</body>
+
+</html>

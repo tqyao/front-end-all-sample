@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// 结构赋值 + 默认值
+		// {host = "127.0.0.1", protocol, port, defAttribute} 当传入对象host属性完全等于undefined，则触发默认值：host = "127.0.0.1"
+		//  {host = "127.0.0.1", protocol, port, defAttribute} = {defAttribute: "default value"} 当传入对象完全等于undefined，则触发默认值：{defAttribute: "default value"}
+		function test({host = "127.0.0.1", protocol, port, defAttribute} = {defAttribute: "default value"}) {
+			console.log(host);
+			console.log(protocol);
+			console.log(port);
+			console.log(defAttribute)
+		}
+
+		test({host: "localhost", protocol: "https", port: 3030});
+		console.log("\n");
+		test({});
+		console.log("\n");
+		test();
+	</script>
+</body>
+</html>

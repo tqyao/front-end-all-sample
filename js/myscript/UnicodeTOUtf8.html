@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		/**
+		 * Created by hdwang on 2019/1/28.
+		 */
+
+		var convertUtf8 = (function () {
+
+			/**
+			 * unicode string to utf-8
+			 * @param text 字符串
+			 * @returns {*} utf-8编码
+			 */
+			function toBytes(text) {
+				var result = [], i = 0;
+				text = encodeURI(text);
+				while (i < text.length) {
+					var c = text.charCodeAt(i++);
+
+					// if it is a % sign, encode the following 2 bytes as a hex value
+					if (c === 37) {
+						result.push(parseInt(text.substr(i, 2), 16))
+						i += 2;
+
+						// otherwise, just the actual byte
+					} else {
+						result.push(c)
+					}
+				}
+
+				return coerceArray(result);
+			}
+
+
+			/**
+			 * utf8 byte to unicode string
+			 * @param utf8Bytes
+			 * @returns {string}
+			 */
+			function utf8ByteToUnicodeStr(utf8Bytes) {
+				var unicodeStr = "";
+				for (var pos = 0; pos < utf8Bytes.length;) {
+					var flag = utf8Bytes[pos];
+					var unicode = 0;
+					if ((flag >>> 7) === 0) {
+						unicodeStr += String.fromCharCode(utf8Bytes[pos]);
+						pos += 1;
+
+					} else if ((flag & 0xFC) === 0xFC) {
+						unicode = (utf8Bytes[pos] & 0x3) << 30;
+						unicode |= (utf8Bytes[pos + 1] & 0x3F) << 24;
+						unicode |= (utf8Bytes[pos + 2] & 0x3F) << 18;
+						unicode |= (utf8Bytes[pos + 3] & 0x3F) << 12;
+						unicode |= (utf8Bytes[pos + 4] & 0x3F) << 6;
+						unicode |= (utf8Bytes[pos + 5] & 0x3F);
+						unicodeStr += String.fromCodePoint(unicode);
+						pos += 6;
+
+					} else if ((flag & 0xF8) === 0xF8) {
+						unicode = (utf8Bytes[pos] & 0x7) << 24;
+						unicode |= (utf8Bytes[pos + 1] & 0x3F) << 18;
+						unicode |= (utf8Bytes[pos + 2] & 0x3F) << 12;
+						unicode |= (utf8Bytes[pos + 3] & 0x3F) << 6;
+						unicode |= (utf8Bytes[pos + 4] & 0x3F);
+						unicodeStr += String.fromCodePoint(unicode);
+						pos += 5;
+
+					} else if ((flag & 0xF0) === 0xF0) {
+						unicode = (utf8Bytes[pos] & 0xF) << 18;
+						unicode |= (utf8Bytes[pos + 1] & 0x3F) << 12;
+						unicode |= (utf8Bytes[pos + 2] & 0x3F) << 6;
+						unicode |= (utf8Bytes[pos + 3] & 0x3F);
+						unicodeStr += String.fromCodePoint(unicode);
+						pos += 4;
+
+					} else if ((flag & 0xE0) === 0xE0) {
+						unicode = (utf8Bytes[pos] & 0x1F) << 12;
+						;
+						unicode |= (utf8Bytes[pos + 1] & 0x3F) << 6;
+						unicode |= (utf8Bytes[pos + 2] & 0x3F);
+						unicodeStr += String.fromCharCode(unicode);
+						pos += 3;
+
+					} else if ((flag & 0xC0) === 0xC0) { //110
+						unicode = (utf8Bytes[pos] & 0x3F) << 6;
+						unicode |= (utf8Bytes[pos + 1] & 0x3F);
+						unicodeStr += String.fromCharCode(unicode);
+						pos += 2;
+
+					} else {
+						unicodeStr += String.fromCharCode(utf8Bytes[pos]);
+						pos += 1;
+					}
+				}
+				return unicodeStr;
+			}
+
+
+			function checkInt(value) {
+				return (parseInt(value) === value);
+			}
+
+			function checkInts(arrayish) {
+				if (!checkInt(arrayish.length)) {
+					return false;
+				}
+
+				for (var i = 0; i < arrayish.length; i++) {
+					if (!checkInt(arrayish[i]) || arrayish[i] < 0 || arrayish[i] > 255) {
+						return false;
+					}
+				}
+
+				return true;
+			}
+
+			function coerceArray(arg, copy) {
+
+				// ArrayBuffer view
+				if (arg.buffer && arg.name === 'Uint8Array') {
+
+					if (copy) {
+						if (arg.slice) {
+							arg = arg.slice();
+						} else {
+							arg = Array.prototype.slice.call(arg);
+						}
+					}
+
+					return arg;
+				}
+
+				// It's an array; check it is a valid representation of a byte
+				if (Array.isArray(arg)) {
+					if (!checkInts(arg)) {
+						throw new Error('Array contains invalid value: ' + arg);
+					}
+
+					return new Uint8Array(arg);
+				}
+
+				// Something else, but behaves like an array (maybe a Buffer? Arguments?)
+				if (checkInt(arg.length) && checkInts(arg)) {
+					return new Uint8Array(arg);
+				}
+
+				throw new Error('unsupported array-like object');
+			}
+
+			return {
+				toBytes: toBytes,
+				fromBytes: utf8ByteToUnicodeStr
+			}
+
+
+		})()
+		// // var a = convertUtf8("\u5982\u679C\u9009\u62E9\u90AE\u7BB1\u63D0\u9192\u65B9\u5F0F\uFF0C\u5219\u4F1A\u5728\u6536\u5230\u8BC4\u8BBA\u540E\u5411\u586B\u5199\u7684\u90AE\u7BB1\u81EA\u8EAB\u53D1\u9001\u4E00\u5C01\u90AE\u4EF6(\u63D0\u9192\u81EA\u5DF1)\uFF1B\u5982\u679C\u9009\u62E9tg\uFF0C\u5219\u586B\u5199\u7684\u90AE\u7BB1\u53EA\u4F5C\u4E3A\u63D0\u9192\u8BBF\u5BA2\u7684\u53D1\u9001\u65B9");
+		// const toBytes1 = convertUtf8.toBytes("\u5982\u679C\u9009\u62E9\u90AE\u7BB1\u63D0\u9192\u65B9\u5F0F\uFF0C\u5219\u4F1A\u5728\u6536\u5230\u8BC4\u8BBA\u540E\u5411\u586B\u5199\u7684\u90AE\u7BB1\u81EA\u8EAB\u53D1\u9001\u4E00\u5C01\u90AE\u4EF6(\u63D0\u9192\u81EA\u5DF1)\uFF1B\u5982\u679C\u9009\u62E9tg\uFF0C\u5219\u586B\u5199\u7684\u90AE\u7BB1\u53EA\u4F5C\u4E3A\u63D0\u9192\u8BBF\u5BA2\u7684\u53D1\u9001\u65B9");
+		// console.log(toBytes1)
+		// const s = convertUtf8.fromBytes(toBytes1);
+		// console.log(s)
+		// console.log(convertUtf8.fromBytes(convertUtf8.toBytes("\u53C8\u62CD\u4E91\u5B58\u50A8\u7A7A\u95F4\u540D\u79F0\uFF0C\u5E2E\u52A9\u6587\u6863\u89C1 https://help.upyun.com/knowledge-base/quick_start/")));
+
+		// console.log(convertUtf8.fromBytes(convertUtf8.toBytes("https://help.upyun.com/knowledge-base/quick_start/")));
+
+	</script>
+</body>
+</html>

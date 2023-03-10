@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div> msg:{{msg.split('').reverse().join('')}}</div>
+		<div>method:</div>
+		<div>{{methodReverse()}}</div>
+		<div>{{methodReverse()}}</div>
+		<div>{{methodReverse()}}</div>
+		<div>computed:</div>
+		<div>{{computedReverse}}</div>
+		<div>{{computedReverse}}</div>
+	</div>
+	<script>
+		let methodCount = 0;
+		let computedCount = 0;
+		Vue.config.productionTip = false
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					msg: 'hello'
+				}
+			},
+			methods:{
+				methodReverse(){
+					console.log("methodReverse exec %s",methodCount++)
+					return this.msg.split('').reverse().join('')
+				}
+			},
+			computed:{
+				computedReverse(){
+					console.log("computedReverse exec %s",computedCount++)
+					return this.msg.split('').reverse().join('')
+				}
+			}
+		})
+	</script>
+</body>
+</html>

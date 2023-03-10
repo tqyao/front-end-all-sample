@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		你好，{{keywords}}
+	</div>
+
+	<div id="app2">
+		你好，{{keywords}}
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		// 容器与实例绑定
+		//1. el: '#app',
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					keywords: "世界"
+				}
+			}
+		})
+
+		//2. $mount
+		const v2 = new Vue({
+			data() {
+				// this 指向 vue 实例
+				console.log('v2 >>>',this)
+				return {
+					keywords: "未来"
+				}
+			}
+		});
+		v2.$mount("#app2")
+
+	</script>
+</body>
+</html>

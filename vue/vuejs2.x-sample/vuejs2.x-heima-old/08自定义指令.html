@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-focus>
+		<input type="text" v-style-color="{backgroundColor:value,fontSize:26+'px'}">
+	</div>
+	<script>
+
+		Vue.config.productionTip = false
+
+		// 全局自定义指令
+		Vue.directive('focus', {
+			inserted: function (el) {
+				el.focus()
+			}
+		})
+
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					value: 'yellow'
+				}
+
+			},
+			// 局部自定义指令
+			directives: {
+				'style-color': {
+					bind: function (el, binding) {
+						const value = binding.value;
+						console.log(value)
+						for (let key of Object.keys(value)){
+							console.log(key,value[key])
+							el.style[key] = value[key]
+						}
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

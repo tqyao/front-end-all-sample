@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="" rel="stylesheet">
+	<script src=""></script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<script>
+		function request(url, callback) {
+			// let res
+			// setTimeout(function () {
+			// 	res = [1, 2, 3, 4]
+			// 	// 模拟网络请求获取服务器数据后，立即调用回调函数
+			// 	callback(res)
+			// })
+			// console.log("模拟异步等待，此处res为 >>", res)
+
+			let res = [1, 2, 3, 4]
+			callback(res)
+
+		}
+
+		// 需求，模拟网络请求获取数据赋值给 data
+		let dataObj = {
+			data: [0],
+			// 1. es5 方式
+			network: function () {
+				let _that = this
+				request('https://xxxx.com', function (res) {
+					_that.data = _that.data.concat(res)
+				})
+			},
+			// 箭头函数方式
+			network2: function () {
+				request('https://xxxx.com', (res) => { // 按箭头函数的规则查找this指向
+					this.data = this.data.concat(res)
+				})
+			}
+
+
+		}
+
+		// dataObj.network()
+		// console.log("network1",dataObj.data);
+
+		dataObj.network2()
+		console.log("network2", dataObj.data);
+	</script>
+</body>
+</html>

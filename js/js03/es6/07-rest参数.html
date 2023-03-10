@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// es 5
+		function test(){
+			console.log(arguments);// 是一个对象
+		}
+		test(1,2,3,4);
+
+		// rest：...扩展运算符？
+		function test2(...args){
+			console.log(args);//是一个数组
+		}
+		test2(1,2,3,4);
+
+
+		function test3(...li){
+			console.log(li)
+		}
+		test3(1,2,3,4);
+	</script>
+</body>
+</html>

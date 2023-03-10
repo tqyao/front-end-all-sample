@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+
+	<div id="app">
+		<component1></component1>
+		<component2></component2>
+		<component3></component3>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		const component1 = {
+			data() {
+				return {
+					msg: '局部组件1'
+				}
+			},
+			template: `
+				<div>{{ msg }}</div>`
+		}
+
+		const component2 = {
+			data() {
+				return {
+					msg: '局部组件2'
+				}
+			},
+			template: `
+				<div>{{ msg }}</div>`
+		}
+		const component3 = {
+			data() {
+				return {
+					msg: '局部组件3'
+				}
+			},
+			template: `
+				<div>{{ msg }}</div>`
+		}
+
+		new Vue({
+			el: '#app',
+			data() {
+				return {}
+			},
+			components: {
+				'component1': component1,
+				component2,
+				component3
+			}
+		})
+
+
+	</script>
+</body>
+</html>

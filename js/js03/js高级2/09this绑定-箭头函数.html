@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="" rel="stylesheet">
+	<script src=""></script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<script>
+		/*
+		a. 箭头函数本身没有this对象，会引用外层函数或对象的作用域
+		b. 箭头函数本身没有this对象，会沿着作用域链去查找this绑定的对象；是基于作用域链去找this对象
+		c. 箭头函数本身没有this对象，所以谈不上用call,apply,bind来改变this指向
+		 */
+
+		// 第1作用域
+		window.tag = "global tag"
+
+		// 1) 箭头函数中的 this 找寻规则与将要打印的变量 tag 相一致
+		let obj = {
+			tag: 'obj tag',
+			foo: function () {   //第2作用域  （因为 obj.foo() 所以根据隐式绑定规则，该层 this 指向 obj） a.
+				return () => {
+					console.log(this)
+					console.log(tag)   //obj tag
+				}
+			}
+		}
+
+		let bar = obj.foo()
+		// 	 箭头函数本身没有this对象，所以谈不上用call,apply,bind来改变this指向 b.
+		bar.apply("bind scope") //{tag:'obj',foo:ƒ}
+
+
+		// 2)
+		let obj2 = {
+			tag: 'obj tag 2',
+			foo: () => {
+				return () => {
+					console.log(this)
+					console.log(tag)   //global tag
+				}
+			}
+		}
+
+		let bar2 = obj2.foo()
+		bar2.apply("bind scope2")   // window
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div>
+			<input type="text" name="" id="" v-model="value"> <br>
+			<span>{{value}}</span> <br>
+			<span>{{value2}}</span> <br>
+			<span>{{computedProperty}}</span> <br>
+			<span>{{value4}}</span> <br>
+
+		</div>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+		const vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					value: 'value默认值abc',
+					value2: 'value2默认值abc',
+					value4: 'value4默认值abc',
+					obj: {
+						attr1: '',
+						inner: {
+							val1: 'inner val1',
+							val2: 'inner val2',
+						}
+					}
+				}
+			},
+			computed: {
+				computedProperty() {
+					return this.value.toUpperCase();
+				}
+			},
+			watch: {
+				/**
+				 * 对象形式
+				 */
+				value: {
+					// immediate:false
+					//  - 等待 value 值变化才执行
+					immediate: false,
+					// 监听回调
+					handler(newValue, oldValue) {
+						console.log('value handler exec...', newValue, oldValue)
+					}
+				},
+				/**
+				 *  等价于 ↑
+				 */
+				'value2': {
+					// immediate:true,
+					//  - 立即执行1次，此时处理函数newValue为undefined
+					immediate: true,
+					// 监听回调
+					handler(newValue, oldValue) {
+						console.log('value2 handler exec...', newValue, oldValue)
+					}
+				},
+
+				/**
+				 * 监听不存在的属性
+				 * - 不报错，但是回调处理的参数都为undefined
+				 */
+				'value3': {
+					// 立即执行1次
+					immediate: true,
+					// 监听回调
+					handler(newValue, oldValue) {
+						console.log('value3 handler exec...', newValue, oldValue)
+					}
+				},
+
+				/**
+				 * 侦听计算属性（侦听器简写）
+				 */
+				computedProperty(newValue, oldValue) {
+					console.log('computedProperty handler exec...', newValue, oldValue)
+				},
+				/**
+				 * 监听对象
+				 */
+				obj: {
+					// 开启深度监听
+					deep: true,
+					handler(newValue, oldValue) {
+						console.log('obj handler exec...', newValue, oldValue)
+					},
+				}
+			}
+		});
+
+		/**
+		 * 实例方法写法
+		 */
+		vm.$watch('value4', {
+			immediate: true,
+			handler(newValue, oldValue) {
+				console.log('value4 handler exec...', newValue, oldValue)
+			},
+		})
+	</script>
+</body>
+</html>

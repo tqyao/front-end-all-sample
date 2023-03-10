@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="" rel="stylesheet">
+	<script src=""></script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<script>
+		/*
+		一 默认绑定
+		触发默认绑定条件：独立调用的普通函数，即函数没有绑定在某个对象上调用
+		非严格模式下：独立调用的普通函数 this 默认指向 window
+		严格模式：独立调用的普通函数 this 默认指向 undefined
+		 */
+
+		/*
+		1. 普通函数
+		 */
+		let foo = function () {
+			console.log("foo", this)
+		}
+		//独立调用的普通函数
+		foo() //win
+
+
+		/*
+		 2. 函数定义在对象中
+		 */
+		let obj = {
+			name: 'why',
+			bar: function () {
+				console.log("obj.bar", this)
+			}
+		}
+		// 通过对象调用
+		// obj.bar() // this -> obj
+
+		// 独立调用
+		let bar1 = obj.bar
+		bar1() // this -> win
+
+		/*
+		3. 高阶函数（嵌套函数）
+		 */
+		function cool(fn) {
+			// 在高阶函数中还是独立调用
+			fn()
+		}
+
+		cool(obj.bar)   // this -> win
+
+		/*
+		4. 嵌套的独立调用
+		 */
+
+		function test01() {
+			console.log("01", this)
+			// 独立调用
+			test02()
+		}
+
+		function test02() {
+			console.log("02", this)
+			// 独立调用
+			test03()
+		}
+
+		function test03() {
+			console.log("03", this)
+		}
+
+		// 独立调用
+		test01()
+
+
+	</script>
+</body>
+</html>

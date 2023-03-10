@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+	<style>
+		.pink-border {
+			width: 200px;
+			height: 200px;
+			border: 1px solid pink;
+		}
+
+		.error {
+			background-color: green;
+		}
+	</style>
+</head>
+<body>
+	<!--
+	1、对象绑定和数组绑定可以结合使用
+	2、c1ass绑定的值可以简化操作
+	3、默认的c1ass如何处理？
+	-->
+	<div id="app">
+		<p :class="[errorClass,pinkBorderClass]"></p>
+		<p :class="objClass"></p>
+	</div>
+	<script>
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					errorClass: 'error',
+					pinkBorderClass: 'pink-border',
+					objClass:{
+						error: 'error',
+						pinkBorder: 'pink-border',
+					}
+				}
+			},
+			methods: {
+				handler() {
+					// console.log(this.errorClass)
+					// console.log("!23")
+					this.errorClass = this.errorClass === '' ? 'error' : ''
+					this.pinkBorderClass = this.pinkBorderClass === '' ? 'pink-border' : ''
+				}
+			}
+		})
+	</script>
+</body>
+</html>

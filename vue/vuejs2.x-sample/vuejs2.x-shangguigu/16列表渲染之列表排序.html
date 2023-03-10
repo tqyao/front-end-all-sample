@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<!-- 计算属性实现 ❎示例 -->
+		<!--		<div>-->
+		<!--			<input type="text" placeholder="请输入搜索值" v-model="keywords">-->
+		<!--			<button @click="sort('asc')">年龄升序</button>-->
+		<!--			<button @click="sort('desc')">年龄降序</button>-->
+		<!--			<button @click="sort('origin')">年龄原序</button>-->
+		<!--			<div v-for="(item,index) in sortList" :key="index">-->
+		<!--				{{item.uname + "_" + item.age}}-->
+		<!--			</div>-->
+		<!--		</div>-->
+
+
+		<div>
+			<input type="text" placeholder="请输入搜索值" v-model="keywords">
+			<button @click="sortType = 1">年龄升序</button>
+			<button @click="sortType = 2">年龄降序</button>
+			<button @click="sortType = 0">年龄原序</button>
+			<div v-for="(item,index) in filterDataList" :key="index">
+				{{item.uname + "_" + item.age}}
+			</div>
+		</div>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		/* 计算属性实现 ❎示例*/
+		    // new Vue({
+		// 	el: '#app',
+		// 	data() {
+		// 		return {
+		// 			keywords: '',
+		// 			dataList: [
+		// 				{id: 3, uname: '周杰伦', age: 22},
+		// 				{id: 1, uname: '马冬梅', age: 18},
+		// 				{id: 4, uname: '温兆伦', age: 32},
+		// 				{id: 2, uname: '周冬雨', age: 20},
+		// 			],
+		// 			sortList: [],
+		// 		}
+		// 	},
+		// 	methods: {
+		// 		sort(val) {
+		// 			if (val === 'desc') {
+		// 				this.sortList = this.filterDataList.sort((a, b) => b.age -a.age)
+		// 			} else if (val === 'asc') {
+		// 				console.log(2)
+		// 				this.sortList = this.filterDataList.sort((a, b) => a.age - b.age)
+		// 			} else {
+		//              todo：当选原序的时候，this.sortList 已经被赋值成功 filterDataList 中的原始数据，但是vue未监测到
+		// 				console.log(3)
+		// 				console.log(this.filterDataList)
+		// 				this.sortList = this.filterDataList
+		// 			}
+		// 		}
+		//
+		// 	},
+		// 	computed: {
+		// 		filterDataList() {
+		// 			return this.dataList.filter(item => item.uname.indexOf(this.keywords) !== -1)
+		// 		}
+		// 	}
+		// })
+
+
+		/* ✅ */
+		const vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					keywords: '',
+					dataList: [
+						{id: 3, uname: '周杰伦', age: 22},
+						{id: 1, uname: '马冬梅', age: 18},
+						{id: 4, uname: '温兆伦', age: 32},
+						{id: 2, uname: '周冬雨', age: 20},
+					],
+					sortType: 0
+				}
+			},
+			computed: {
+				filterDataList() {
+					const arr = this.dataList.filter(item => item.uname.indexOf(this.keywords) !== -1)
+					if (!this.sortType) {
+						return arr;
+					}
+					return this.sortType === 1 ? arr.sort((a, b) => a.age - b.age) : arr.sort((a, b) => b.age - a.age)
+				}
+			}
+		});
+
+
+	</script>
+</body>
+</html>

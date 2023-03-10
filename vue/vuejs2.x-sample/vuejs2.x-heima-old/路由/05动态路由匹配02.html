@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="../js/vue.js"></script>
+	<script src="../js/vue-router_3.0.2.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div>
+			<router-link to="/user/1">User1</router-link>
+			<router-link to="/user/2">User2</router-link>
+			<router-link to="/user/3">User3</router-link>
+		</div>
+		<router-view></router-view>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		const User = {
+			props: ['uid', 'username', 'password'],
+			template: `
+				<div>
+				<!-- 获取匹配成功后的动态路由参数 -->
+				<h2>用户组件 --- uid : {{ uid }}, username : {{ username }}, password : {{ password }}</h2>
+				<h3>$route.params.uid : {{ $route.params }}</h3>
+				</div>
+			`
+		}
+
+
+		const router = new VueRouter({
+			routes: [
+				// 1. 开启 props 传参
+				// {path: '/user/:uid', component: User, props: true},
+				// 2. props 传递对象参数
+				// {path: '/user/:uid', component: User, props: {username: '张三', password: '123'}},
+				//3. 通过函数参数获取动态路由参数
+				{
+					path: '/user/:uid',
+					component: User,
+					props: route => ({username: '李四', password: '456', uid: route.params.uid})
+				},
+			]
+		});
+		new Vue({
+			el: '#app',
+			data() {
+				return {}
+			},
+			router
+		})
+	</script>
+</body>
+</html>

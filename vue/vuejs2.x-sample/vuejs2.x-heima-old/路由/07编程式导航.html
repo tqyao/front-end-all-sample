@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="../js/vue.js"></script>
+	<script src="../js/vue-router_3.0.2.js"></script>
+</head>
+<body>
+	<div id="app">
+		<router-link :to="{name:'user',params:{id:123}}">User 123组件</router-link>
+		<router-link :to="{name:'user',params:{id:456}}">User 456组件</router-link>
+		<router-link :to="{name:'user',params:{id:789}}">User 789组件</router-link>
+		<router-view></router-view>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+		const User = {
+			props: ['id', 'username', 'password'],
+			template: `
+				<div>
+				<h2>User 组件 --- id:{{ id }},username:{{ username }},password:{{ password }}</h2>
+				<button @click="goRegister">点我去往注册页面</button>
+				</div>
+			`,
+			methods: {
+				goRegister(){
+					/*
+					this.$router.push('哈希地址')
+					this.$router.go('数字')   // 前进、后退
+					 */
+
+					// this.$router.push('/register')
+					// this.$router.push({path:'/register'})
+					// this.$router.push({path:'/register',query:{uid:'123'}})
+					// this.$router.push({name:'/reg',params:{uid:'456'}})
+					this.$router.push({name:'/reg',query:{uid:'456'}})
+
+				}
+			}
+		}
+
+		const Register = {
+			template: `
+			<div>
+				<h2>我是注册组件</h2>
+				<button @click="goback">点我返回</button>
+			</div>
+			`,
+			methods:{
+				goback(){
+					this.$router.go(-1)
+				}
+			}
+		}
+
+		const router = new VueRouter({
+			routes: [
+				{
+					path: '/',
+					redirect: '/user/123'
+				},
+				{
+					path: '/user/:id',
+					name: 'user',
+					component: User,
+					props: route => ({id: route.params.id, username: 'zs', password: 'abc'})
+				},
+				{
+					path:'/register',
+					name:'/reg',
+					component: Register
+				}
+			]
+		});
+		new Vue({
+			el: '#app',
+			data() {
+				return {}
+			},
+			router
+		})
+	</script>
+</body>
+</html>

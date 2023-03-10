@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<!--
+		注意：
+			- 属性传递不带':'相当于静态字符串传递
+	-->
+	<div id="app">
+		<my-test pstr="string" pbool="true" pnum="123" :parr="['apple','banner']" :pobj="{'name':'张三'}"></my-test>
+		<hr>
+		<my-test :pstr="mystr" :pbool="mybool" :pnum="mynum" :parr="myarr" :pobj="myobj"></my-test>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		Vue.component('my-test', {
+			props: ['pstr', 'pbool', 'pnum', 'parr', 'pobj'],
+			template: `
+				<div>
+				pstr:{{ pstr }}    <br>
+				pbool:{{ pbool + ">>" + typeof pbool }}<br>
+				pnum:{{ pnum + ">>" + typeof pnum }}<br>
+				parr:
+				<ul>
+					<li v-for="(item,index) in parr">{{ index + '---' + item }}</li>
+				</ul>
+				pobj:{{ pobj }}<br>
+				pobj.name:{{ pobj.name }}
+				</div>
+
+			`
+		})
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					mystr:'app',
+					mybool:false,
+					mynum:123,
+					myarr:['西瓜','冬瓜','北瓜'],
+					myobj: {'username':'tqyao',pwd:'mimi'},
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>跨域请求接口测试</title>
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<style>
+		.result {
+			margin-top: 10px;
+			width: 400px;
+			height: 300px;
+			border: 2px solid #cccccc;
+		}
+	</style>
+</head>
+<body>
+	<button class="btnGet">btnGet</button>
+	<button class="btnPost">btnPost</button>
+	<button class="btnPut">btnPut</button>
+	<button class="btnDel">btnDel</button>
+	<button class="btnCancel">btnCancel</button>
+	<div class="result"></div>
+	<script>
+		const resultDiv = document.querySelector('.result');
+		const getBtn = document.querySelector('.btnGet');
+		const postBtn = document.querySelector('.btnPost');
+		const cancelBtn = document.querySelector('.btnCancel')
+		const btnPut = document.querySelector('.btnPut')
+
+
+		// 记录上一次发送ajax的请求 XMLHttpRequest
+		let xhr
+
+		cancelBtn.addEventListener('click', function () {
+			if (xhr && xhr.readyState < 4) {
+				console.log("终止请求")
+				xhr.abort()
+			}
+		})
+
+		// 创建 ajax 实例
+		getBtn.addEventListener('click', function () {
+			xhr = new XMLHttpRequest()
+			// 定义请求方式请求地址
+			xhr.open('GET', 'http://127.0.0.1:8888/api/user?brand=airpot&color=red')
+			// 发送请求
+			xhr.send()
+
+			// 当 readyState 属性发生变化时被调用的函数
+			xhr.onreadystatechange = () => {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					// 响应体 数据（字符串形式）
+					resultDiv.innerHTML = xhr.responseText + '\n'
+					// 响应体 状态码
+					resultDiv.innerHTML += xhr.status + '\n'
+					// 响应体 状态字符
+					resultDiv.innerHTML += xhr.statusText
+				}
+			}
+		})
+
+		const customHeader = 'Self-auth-name'
+		postBtn.addEventListener('click', function () {
+			/**
+			 * post 请求携带表单application/x-www-form-urlencoded格式数据
+			 * @type {XMLHttpRequest}
+			 */
+			xhr = new XMLHttpRequest()
+			xhr.open('POST', 'http://localhost:8888/api/user')
+			/**
+			 * 自定义请求头信息
+			 */
+			xhr.setRequestHeader(customHeader, 'tqyao')
+			/**
+			 * 预定义请求头 'Content-type', 'application/x-www-form-urlencoded'
+			 * 设置请求参数格式 表单数据格式
+			 */
+			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+			// 请求参数
+			xhr.send('fname=Bill&lname=Gates')
+
+
+			xhr.timeout = 3000
+			xhr.ontimeout = () => {
+				alert('网络错误，稍后重试')
+			}
+			xhr.onerror = () => {
+				alert('服务器内部错误')
+			}
+			xhr.onreadystatechange = () => {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					// 响应体 数据（字符串形式）
+					resultDiv.innerHTML = xhr.responseText + '\n'
+					// 响应体 状态码
+					resultDiv.innerHTML += xhr.status + '\n'
+					// 响应体 状态字符
+					resultDiv.innerHTML += xhr.statusText
+
+					/**
+					 * 获取所有安全（允许获取）请响应头
+					 */
+					console.log(xhr.getAllResponseHeaders())
+					/**
+					 * 获取指定的请求头
+					 */
+					console.log(xhr.getResponseHeader(customHeader))
+				}
+			}
+		})
+
+
+		btnPut.addEventListener('click', function () {
+			ajax({
+				url: 'http://localhost:8888/api/user/21809381021',
+				type: 'put',
+				data: {'start': 'zhangxueyou', 'Profession': 'singer'},
+				dataType: 'json',
+				timeout:3000,
+				success(xhr) {
+					resultDiv.innerHTML = xhr.responseText + '\n'
+					// 响应体 状态码
+					resultDiv.innerHTML += xhr.status + '\n'
+					// 响应体 状态字符
+					resultDiv.innerHTML += xhr.statusText
+				}
+			})
+		})
+
+
+		function ajax(option) {
+			const xhr = new XMLHttpRequest()
+			const {type, url, timeout, fail, error, success, dataType} = option
+			const data = dataToStr(option.data, dataType)
+
+			console.log('ajax data >>>', data)
+			if (type.toUpperCase() === "GET") {
+				xhr.open('get', url + '?' + data)
+				xhr.send()
+			} else {
+				xhr.open(type, url)
+				if (dataType === 'json')
+					xhr.setRequestHeader("Content-type", "application/json")
+				else if (dataType === 'from')
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+				xhr.send(data)
+			}
+
+			xhr.onreadystatechange = function () {
+				if (this.readyState === 4) {
+					clearTimeout(timer)
+					if (this.status >= 200 && this.status < 300 || this.status === 304)
+						success && success(xhr)
+					else
+						fail && fail(xhr)
+
+				}
+			}
+
+			let timer = null;
+			if (timeout) {
+				timer = setTimeout(() => {
+					xhr.abort()
+					clearTimeout(timer)
+				}, timeout)
+			}
+
+			if (error)
+				xhr.onerror = error
+		}
+
+		function dataToStr(data, dataType) {
+			if (!data) data = {}
+			data.datatime = Date.now()
+			if (dataType === "json")
+				return JSON.stringify(data)
+			// else if (dataType === 'from') {
+			else {
+				const formList = []
+				let str;
+				for (let key in data)
+					formList.push(key + "=" + data[key] + "&")
+				str = formList.join('')
+				return str.substring(0, str.length - 1)
+			}
+			// return data
+		}
+
+		console.log(dataToStr({name: 'tqyao', age: 18}, 'get'));
+
+	</script>
+</body>
+</html>

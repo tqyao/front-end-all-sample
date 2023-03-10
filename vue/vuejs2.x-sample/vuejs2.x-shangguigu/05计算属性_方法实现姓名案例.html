@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="text" @keydown.passive="listenInput('firstInp',$event)" class="firstInp"> <br>
+		<input type="text" @keydown.passive="listenInput('secondInp',$event)" class="secondInp"> <br>
+		<!--		<span>{{ firstName }} _ {{ lastName}}</span> <br>-->
+		<!--		<span>{{(firstName + '_' + lastName).split('_').reverse().join('_')}}</span> <br>-->
+		<span>{{fullname()}}</span> <br>
+	</div>
+	<script>
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					firstName: '张',
+					lastName: '三'
+				}
+			},
+			mounted(){
+				const firstInp = document.querySelector('.firstInp');
+				const secondInp = document.querySelector('.secondInp');
+				firstInp.setAttribute('value',this.firstName)
+				secondInp.setAttribute('value',this.lastName)
+			},
+			methods: {
+				fullname() {
+					return (this.firstName + '_' + this.lastName).split('_').reverse().join('_')
+				},
+				listenInput(target, e) {
+					if (target === 'firstInp') {
+						if (e.key === 'Backspace') {
+							this.firstName = this.firstName.substring(0, this.firstName.length - 1)
+							return
+						}
+						this.firstName += e.key
+					} else {
+						if (e.key === 'Backspace') {
+							this.lastName = this.lastName.substring(0, this.lastName.length - 1)
+							return
+						}
+						this.lastName += e.key
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

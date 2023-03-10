@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="" rel="stylesheet">
+	<script src=""></script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<script>
+		/*
+		隐士绑定：通过某个对象发起的函数调用
+		 */
+
+
+		/*
+		1. 通过对象调用
+		 */
+		function foo() {
+			console.log("foo", this)
+		}
+
+		let obja = {
+			name: 'a',
+			foo: foo
+		}
+
+		obja.foo()// this -> obja
+
+
+		/*
+		2. 通过对象调用
+		 */
+
+		let objb = {
+			name: 'b',
+			// 实质上还是指向定义 foo 时的函数
+			foo: obja.foo
+		}
+		objb.foo() // this -> objb
+
+		/*
+		3. 通过把对象方法赋值给变量方式
+		 */
+
+		// 指向最初定义 foo 函数，相当于还是独立调用，触发默认绑定
+		let bar = obja.foo
+		let bar1 = objb.foo
+
+		bar()
+		bar1()
+
+	</script>
+</body>
+</html>

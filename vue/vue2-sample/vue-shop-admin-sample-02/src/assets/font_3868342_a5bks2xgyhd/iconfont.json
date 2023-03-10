@@ -1,0 +1,44 @@
+{
+  "id": "3868342",
+  "name": "vue电商后台管理",
+  "font_family": "iconfont2",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "579741",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e788",
+      "unicode_decimal": 59272
+    },
+    {
+      "icon_id": "1727271",
+      "name": "06商品-线性",
+      "font_class": "shangpin-xianxing",
+      "unicode": "e889",
+      "unicode_decimal": 59529
+    },
+    {
+      "icon_id": "2892820",
+      "name": "订单",
+      "font_class": "dingdan",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "4700542",
+      "name": "权限",
+      "font_class": "authority",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "11994852",
+      "name": "统计计算",
+      "font_class": "tongjijisuan",
+      "unicode": "e659",
+      "unicode_decimal": 58969
+    }
+  ]
+}

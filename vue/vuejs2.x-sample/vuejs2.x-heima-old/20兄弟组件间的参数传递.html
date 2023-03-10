@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<jerry></jerry><hr>
+		<tom></tom>
+	</div>
+	<script>
+		Vue.config.productionTip=false
+		const eventHub = new Vue();
+
+		Vue.component('jerry',{
+			data(){
+				return{
+					count:1
+				}
+			},
+			template:`
+				<div>
+				jerry >> {{count}}
+				<button @click="handler">tom + 1</button>
+				</div>
+			`,
+			mounted(){
+				/* 监听 jerry-event 事件*/
+				eventHub.$on('jerry-event',(val)=> {
+					this.count += val;
+				})
+			},
+			methods:{
+				handler(){
+					/* 当前组件触发事件调用handler函数，触发 tom-event */
+					eventHub.$emit('tom-event',2)
+				}
+			}
+		})
+
+		Vue.component('tom',{
+			data(){
+				return{
+					count:1
+				}
+			},
+			template:`
+				<div>
+				Tom >> {{count}}
+				<button @click="handler">jerry + 1</button>
+				</div>
+			`,
+			mounted(){
+				eventHub.$on('tom-event',(val)=> {
+					this.count += val;
+				})
+			},
+			methods:{
+				handler(){
+					eventHub.$emit('jerry-event',1)
+				}
+			}
+		})
+
+		new Vue({
+			el:'#app',
+			data(){
+				return{
+
+				}
+			}
+		})
+
+
+	</script>
+</body>
+</html>

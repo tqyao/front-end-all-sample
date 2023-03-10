@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="../js/vue.js"></script>
+	<script src="../js/vue-router_3.0.2.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div>
+			<router-link to="/user">User</router-link>
+			<router-link to="/register">Register</router-link>
+		</div>
+		<router-view></router-view>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		const User = {
+			template: `
+			<div>
+				<h2>用户组件</h2>
+			</div>
+			`
+		}
+
+		const Tab1 ={
+			template: `
+			<div>
+				<h2>Tab1</h2>
+			</div>
+			`
+		}
+
+		const Tab2 ={
+			template: `
+			<div>
+				<h2>Tab2</h2>
+			</div>
+			`
+		}
+
+		const Register = {
+			template: `
+			<div>
+				<h2>注册组件</h2>
+				<hr>
+				<router-link to="/register/tab1">tab1</router-link>
+				<router-link to="/register/tab2">tab2</router-link>
+				<router-view></router-view>
+			</div>
+			`
+		}
+		const router = new VueRouter({
+			routes: [
+				{path: '/user', component: User},
+				{
+					path: '/register',
+					component: Register,
+					children:[
+						{path:'tab1',component:Tab1},
+						{path:'tab2',component:Tab2}
+					]
+				}
+			]
+		});
+		new Vue({
+			el: '#app',
+			data() {
+				return {}
+			},
+			router
+		})
+	</script>
+</body>
+</html>

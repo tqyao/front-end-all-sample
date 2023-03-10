@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<!--
+	全局组件
+		1. 命名可以 驼峰式 或 短横杆式
+			- 驼峰式：无法被根组件识别
+			- 短横杠：无限制，推荐使用
+		2. 模版
+			- 可以采用模版字符串和字符串
+			- 多个标签必须包括在跟标签之内
+		3. data
+			- 组件组成必须采取函数形式，闭包，形成各组件之间独立的作用域
+	-->
+	<div id="app">
+		<hello-jerry></hello-jerry>
+		<!-- 驼峰式无法再次应用 -->
+		<!--		<HelloBill></HelloBill>-->
+		<hello-tom></hello-tom>
+	</div>
+	<script>
+		Vue.config.productionTip = false
+
+		/*
+		组件命名：
+			- 驼峰式 或 短横杆式
+			- 短横杆式
+		 */
+		Vue.component('hello-jerry', {
+			/*
+			data：
+				- 组件组成必须采取函数形式，闭包，形成各组件之间独立的作用域
+			 */
+			data() {
+				return {
+					count: 0
+				}
+			},
+			/*
+			模版
+				- 可以采用模版字符串和字符串
+				- 多个标签必须包括在跟标签之内
+			 */
+			template: `
+				<div>
+				<h2>hello jerry {{ count }}</h2>
+				<button @click="count++">jerry点击</button>
+				</div>
+			`
+		})
+
+		Vue.component('HelloBill', {
+			data() {
+				return {
+					count: -1000
+				}
+			},
+			template: `
+				<div>
+				<h2>HelloBill {{ count }}</h2>
+				<button @click="count++">bill 点击</button>
+				</div>
+			`
+		})
+
+		Vue.component('hello-tom', {
+			data() {
+				return {
+					count: 100
+				}
+			},
+			template: `
+				<div>
+				<h2>hello-tom {{ count }}</h2>
+				<button @click="count++">tom 点击</button>
+				<hello-jerry></hello-jerry>
+				<HelloBill></HelloBill>
+				</div>
+			`
+		})
+
+
+		new Vue({
+			el: '#app',
+			data() {
+				return {}
+			}
+		})
+
+
+	</script>
+</body>
+</html>

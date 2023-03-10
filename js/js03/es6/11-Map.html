@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+
+
+		/**
+		 * map 创建
+		 * 任何具有 Iterator 接口、且每个成员都是一个双元素的数组的数据结构（
+		 * 详见《Iterator》一章）都可以当作Map构造函数的参数。
+		 * @type {Map<number, string>}
+		 */
+		const map1 = new Map([[1, 'a'], [2, 'b']])
+		console.log(map1.get(1));
+		console.log(map1.get(2));
+		console.log(map1);
+
+		//上面相当于
+		const mymap = new Map();
+		[[1, 'a'], [2, 'b']].forEach(([key, value]) => {
+			mymap.set(key, value)
+		})
+		console.log('mymap', mymap)
+
+		/*
+		下面这段代码数据结构执行解释
+		[[[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd']]] >>> [[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd']]
+		>>> ([1, 'a'], [2, 'b']) >>> map([[1, 'a'], [2, 'b']])
+		 */
+		const map2 = new Map([[[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd']]])
+		console.log(map2.get(1));
+		console.log(map2.get(2));
+		console.log(map2)
+
+		// const map3 = new Map([1,'a'],[2,'b']) //error
+		// console.log(map3);
+
+
+		// 下面map构造函数参数的set具有 Iterator 接口、且每个成员都是一个双元素的数组的数据结构
+		const map4 = new Map(new Set([['a', 1], ['b', 2]]))
+		console.log(map4)
+
+
+		/**
+		 * map 键的 的注意点
+		 * @type {Map<any, any>}
+		 */
+		const map3 = new Map();
+		map3.set(0, '123')
+		map3.set(-0, 'abc')
+
+		console.log('get(0)', map3.get(0)); // abc
+		console.log('get(-0)', map3.get(-0)); // abc
+
+
+		map3.set('true', 'bool1')
+		map3.set(true, 'bool2')
+
+		console.log('get("true")', map3.get(true)) //bool2
+		console.log('get(true)', map3.get('true'))//bool1
+
+
+		// undefined和null也是两个不同的键。虽然NaN不严格相等于自身，但 Map 将其视为同一个键。
+		map3.set(NaN, '123')
+		map3.set(NaN, '456')
+		console.log('get(NaN)', map3.get(NaN))
+
+		map3.set(undefined, 'undefined 1')
+		map3.set(undefined, 'undefined 2')
+		console.log('get(undefined)', map3.get(undefined))
+
+		// {} 每一个对象都是不同的，意味着map3的键存储的是地址
+		map3.set({}, 'empty obj one')
+		map3.set({}, 'empty obj two')
+		console.log('get({})', map3.get({})) // undefined
+
+
+		/**
+		 * 遍历
+		 */
+		const map5 = new Map()
+				.set('a', 1)
+				.set('b', 2)
+				.set('c', 3)
+		console.log('map5', map5)
+
+		/*
+		map 本身没有 filter 和 map ，可借助数组实现
+		 */
+		const nmap1 = new Map(
+				[...map5].filter(([key, value], index) => {
+					console.log('nmap1', key, value, index)
+					return value >= 2
+				})
+		)
+		console.log('nmap1', nmap1)
+
+
+		const nmap2 = new Map(
+				[...map5].map(([key, value]) => {
+					console.log('nmap2', key, value)
+					return ['_' + key, ++value]
+				})
+		)
+		console.log('nmap2', nmap2)
+
+		// map 有 foreach  接受两个参数：1. callback 2. 执行callback时作用this的值
+		const reporter = {
+			report: function (key, value) {
+				console.log('key:%o, value:%o', key, value)
+			}
+		}
+
+		//forEach方法的回调函数的this，就指向reporter
+		map5.forEach(function (key, val, map){
+			console.log(this,map)
+			this.report(key, val)
+		}, reporter)
+
+
+	</script>
+</body>
+
+</html>

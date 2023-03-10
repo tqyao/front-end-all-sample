@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="" rel="stylesheet">
+	<script src=""></script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<script>
+
+		/*
+		显示绑定
+         */
+
+		/*
+		需求：	让 foo 函数中的 this 指向 myobj
+		 */
+		function foo(name, age, other) {
+			console.log("this 指向是>>", this)
+			console.log("打印参数>>", name, age, other)
+		}
+
+		let myobj = {
+			tag: 'myobj'
+		}
+
+		// 1. 赋值给对象的某个属性，通过对象调用
+		myobj.foo = foo
+		myobj.foo()
+
+		/*
+		2. apply
+		function.apply(thisArg[,argsArray])
+		 */
+		let myobj2 = {
+			tag: 'myobj2'
+		}
+		// 显示绑定
+		foo.apply(myobj2)
+		// 普通的独立调用
+		foo()
+		foo.apply(myobj2, ['jemss', 18])
+
+
+		/*
+		3. call
+		function.call(thisArg[,arg1[,arg2[,...]]])
+		 */
+		let myobj3 = {
+			tag: 'myobj3'
+		}
+		// 显示绑定
+		foo.call(myobj3, 'curry', 20, true)
+
+
+		/*
+		4. bind
+		语法：function.bind(thisArg[, arg1[, arg2[, ...]]])
+		与 call，apply 不同：通过调用 bind 对函数进行 this 绑定，实际上是拷贝创建了一个this
+		绑定指定的参数的一个新函数
+		 */
+		let myobj4 = {
+			tag: 'myobj4'
+		}
+		console.log('\n')
+		let bundle = foo.bind(myobj4, 'Haden', 33)
+		//{tag: 'myobj4'}
+		console.log(myobj4)
+
+		/*
+		一下打印 this 指向都是>> {tag: 'myobj4'}
+		 */
+		bundle()    //打印参数>> Haden 33 undefined
+		// 每次调用都默认传入绑定时的参数
+		bundle()    //打印参数>> Haden 33 undefined
+		// 给未绑定的参数赋值
+		bundle('give other value')  //打印参数>> Haden 33 give other value
+		// 修改最后一个参数值
+		bundle('give other value 2')    //打印参数>> Haden 33 give other value 2
+		// 传入多个，只接收第一个（'false'），赋值给 foo 的最后一个参数（ other ）
+		bundle("false", 'Baoluo', 77, 'give other value 3') //打印参数>> Haden 33 false
+
+
+	</script>
+</body>
+</html>

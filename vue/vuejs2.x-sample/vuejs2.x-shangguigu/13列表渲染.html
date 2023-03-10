@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="./js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<!--
+		1. 遍历数组
+		2. 遍历对象
+		3. 遍历字符串
+		4. 数的便利
+		-->
+
+		<div>
+			<h1>遍历数组</h1>
+			<ul v-for="(item,index) in dataList">
+				<li>
+					{{"name = " + item.uname + ",age = " + item.age}}
+				</li>
+			</ul>
+		</div>
+
+		<div>
+			<h1>遍历对象</h1>
+			<div v-for="item of dataObj">
+				{{item}}
+			</div>
+		</div>
+
+
+		<div>
+			<h1>遍历字符串</h1>
+			<div v-for="ch in dataStr">{{ch}}</div>
+		</div>
+
+		<div>
+			<h1>遍历数</h1>
+			<div v-for="num in 5"> {{num}}</div>
+		</div>
+
+
+
+	</div>
+	<script>
+		Vue.config.productionTip = false
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					dataList: [
+						{id: 1, uname: '张三', age: 18},
+						{id: 2, uname: '李四', age: 20},
+						{id: 3, uname: '王五', age: 22},
+					],
+					dataObj: {
+						data: {cname: '凯迪拉克', isBuy: false, price: 18806},
+						boolData: true,
+						numberData: 11004
+					},
+					dataStr:'i love you'
+				}
+			}
+		})
+	</script>
+</body>
+</html>
